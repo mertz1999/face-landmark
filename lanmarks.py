@@ -13,7 +13,7 @@ class Landmarks():
         mp_facemesh = mp.solutions.face_mesh
         mp_drawing  = mp.solutions.drawing_utils
         self.denormalize_coordinates = mp_drawing._normalized_to_pixel_coordinates
-        self.face_mesh = mp_facemesh.FaceMesh(refine_landmarks=True)
+        self.face_mesh = mp_facemesh.FaceMesh(static_image_mode=False, max_num_faces=5, min_detection_confidence=0.5, min_tracking_confidence=0.5)
 
         self.parts = {
             'lip' : [78,191,80,81,82,13,312,311,310,415,308,324,318,402,317,14,87,178,88,95]
@@ -29,8 +29,9 @@ class Landmarks():
         frame = np.ascontiguousarray(frame)
 
         # Get all landmarks
-        results = self.face_mesh.face_meshe.face_mesh.process(frame).multi_face_landmarks
+        results = self.face_mesh.process(frame).multi_face_landmarks
         points = []
+        print(len(results))
         try:
             if results:
                 for _, face_landmarks in enumerate(results):
@@ -46,6 +47,6 @@ class Landmarks():
         except:
             return points
 
-        return points
+        return np.array(points)
 
 
