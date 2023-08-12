@@ -31,7 +31,6 @@ class Landmarks():
         # Get all landmarks
         results = self.face_mesh.process(frame).multi_face_landmarks
         points = []
-        print(len(results))
         try:
             if results:
                 for _, face_landmarks in enumerate(results):
